@@ -30,6 +30,7 @@ userRouter.post('/register', async (req, res) => {
             })
 
             const savedUser = await user.save()
+            res.send({ "message": "Successful Registeration", token: token })
             res.status(201).json({ message: 'User registered successfully', user: savedUser });
         }
 
