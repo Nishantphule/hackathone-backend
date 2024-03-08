@@ -11,7 +11,7 @@ userRouter.post('/register', async (req, res) => {
     try {
         const { firstName, lastName, email, phoneNumber, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ emailId: email });
 
         if (existingUser) {
             return res.status(409).json({ message: "User already exists" })
@@ -30,8 +30,8 @@ userRouter.post('/register', async (req, res) => {
             })
 
             const savedUser = await user.save()
-            res.send({ "message": "Successful Registeration", token: token })
-            res.status(201).json({ message: 'User registered successfully', user: savedUser });
+            // res.send({ "message": "Successful Registeration", token: token })
+            res.status(201).json({ message: 'Successful Registeration', user: savedUser });
         }
 
     } catch (error) {
