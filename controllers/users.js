@@ -46,7 +46,7 @@ userRouter.post("/login", async (req, res) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({ emailId: email });
-        console.log(user)
+
         if (!user) {
             res.status(400).send({ message: "Invalid Credentials" })
         }
@@ -56,7 +56,7 @@ userRouter.post("/login", async (req, res) => {
             if (isPasswordMatch) {
                 const token = jwt.sign({ id: user.userId }, config.SECRET_KEY)
                 res.header({ "x-auth-token": token })
-                res.send({ "message": "Successful Login", token: token })
+                res.send({ "message": "Successful Login", token: token, user: user })
             }
             else {
                 res.send({ message: "Invalid Credentials" })
@@ -69,5 +69,17 @@ userRouter.post("/login", async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" })
     }
 });
+
+
+// get user
+userRouter.get('/userById', async (req, res) => {
+    try {
+        const id = req.body;
+        const user = await User.findById(id)
+        res.status(200).json({ user })
+    } catch (error) {
+        res.status(400).json({ message: "Server Error", error })
+    }
+})
 
 module.exports = userRouter;
