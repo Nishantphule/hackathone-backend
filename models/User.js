@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    address: {
+        type: String,
+    },
+    sports: {
+        type: String,
+    },
     password: {
         type: String,
         required: true

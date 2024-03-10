@@ -82,4 +82,37 @@ userRouter.get('/userById', async (req, res) => {
     }
 })
 
+
+// edit
+userRouter.patch("/editUser/:id", (request, response) => {
+    const id = request.params.id;
+    const userToPatch = request.body;
+
+    User.findByIdAndUpdate(id, userToPatch)
+        .then((updateduser) => {
+            if (!updateduser) {
+                return response.status(404).json({ error: 'user not found' });
+            }
+            response.status(201).json({ "message": "Update Successful", updateduser });
+        })
+        .catch((error) => {
+            response.status(500).json({ error: 'Internal server error' });
+        });
+})
+
+
+// all
+userRouter.get("/allUser", async (req, res) => {
+    try {
+        User.find({})
+            .then((users) => {
+                res.status(200).json({ users: users })
+            })
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" })
+    }
+})
+
+
+
 module.exports = userRouter;
