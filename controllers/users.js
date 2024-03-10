@@ -9,7 +9,7 @@ const User = require("../models/User");
 // register
 userRouter.post('/register', async (req, res) => {
     try {
-        const { firstName, lastName, email, phoneNumber, password } = req.body;
+        const { firstName, lastName, email, phoneNumber, address, sports, password } = req.body;
 
         const existingUser = await User.findOne({ emailId: email });
 
@@ -25,6 +25,8 @@ userRouter.post('/register', async (req, res) => {
                 firstName,
                 lastName,
                 emailId: email,
+                address,
+                sports,
                 phoneNumber,
                 password: hashedPassword
             })
